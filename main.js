@@ -11,7 +11,7 @@ var accounts = [];
 
 function serve(request,response) {
     var info = request.url;
-    console.log(`Request:\n    Url: ${request.url}`);
+    console.log(`GET ${request.url}`);
     if(info != "/")
         info = info.slice(1)
     response.setHeader("Content-type","text/html");
@@ -32,7 +32,7 @@ function serve(request,response) {
                 var j = 0;
                 for(var i = surveys.length - 1; j < Math.min(250,surveys.length) && i >= 0; i--) {
                     if(!surveys[i].responders.includes(infoSplit[1])) {
-                    response.write(`<div class="widget"id="${i}"><h1>${surveys[i].name}</h1><h2>${surveys[i].sub}</h2><button onclick="send(${i},0)">${surveys[i].answers[0]}</button><br/><button onclick="send(${i},1)">${surveys[i].answers[1]}</button><br/><button onclick="send(${i},2)">${surveys[i].answers[2]}</button><br/><button onclick="send(${i},3)">${surveys[i].answers[3]}</button><br/>Made by ${accounts[accounts.map(a => a.key).indexOf(surveys[i].creator)].name}</div>`);
+                    response.write(`<div class="widget"id="${i}"><h1>${surveys[i].name}</h1><h2>${surveys[i].sub}</h2>${[null, undefined,"#", ""].includes(surveys[i].img) ?  "" : `<hr><img src="${surveys[i].img}"width="350"><hr>` }<button onclick="send(${i},0)">${surveys[i].answers[0]}</button><br/><button onclick="send(${i},1)">${surveys[i].answers[1]}</button><br/><button onclick="send(${i},2)">${surveys[i].answers[2]}</button><br/><button onclick="send(${i},3)">${surveys[i].answers[3]}</button><br/>Made by ${accounts[accounts.map(a => a.key).indexOf(surveys[i].creator)].name}</div>`);
                     j++;
                     }
                 }
@@ -50,7 +50,7 @@ function serve(request,response) {
             }
             case "submit": {
                 //Submit survey for creation
-                surveys.push({creator:infoSplit[1],name:infoSplit[2],sub:infoSplit[3],answers:[infoSplit[4],infoSplit[5],infoSplit[6],infoSplit[7]],responses:[0,0,0,0],responders:[]})
+                surveys.push({creator:infoSplit[1],name:infoSplit[2],sub:infoSplit[3],answers:[infoSplit[4],infoSplit[5],infoSplit[6],infoSplit[7]],responses:[0,0,0,0],responders:[],img:(infoSplit[8] == "#") ? null : infoSplit[8]})
                 break;
             }
             case "check_acc": {
@@ -224,7 +224,7 @@ function serve(request,response) {
             }
     } 
     response.end();
-    console.log(`    Status: ${response.statusCode}`);
+    // console.log(`    Status: ${response.statusCode}`);
 }
 
 var server = http.createServer(serve);
