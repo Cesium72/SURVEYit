@@ -37,11 +37,12 @@ Don't steal my code!
         const getVal = (input) => encodeURIComponent(document.getElementById(input).value);
         function submit() {
         if(!["header","sub","op1","op2","op3","op4"].map(a => getVal(a)).includes("")) {
-fetch(`submit/${localStorage.getItem("uid")}/${getVal("header")}/${getVal("sub")}/${getVal("op1")}/${getVal("op2")}/${getVal("op3")}/${getVal("op4")}/${document.getElementById("img").src}`);
+fetch(`submit/${localStorage.getItem("uid")}/${getVal("header")}/${getVal("sub")}/${getVal("op1")}/${getVal("op2")}/${getVal("op3")}/${getVal("op4")}/${base64Final.toString()}`);
         location.replace("."); } else {
         alert("Please fill out all fields!");
             }
         }
+        var base64Final = "#";
 
         window.addEventListener('load', function() {
               document.querySelector('input[type="file"]').addEventListener('change', function() {
@@ -54,19 +55,12 @@ fetch(`submit/${localStorage.getItem("uid")}/${getVal("header")}/${getVal("sub")
                       var a = URL.createObjectURL(this.files[0]);
                       console.log(a);
 
-                       let reader = new FileReader();
-                        reader.readAsDataURL(a);
-                        reader.onloadend = function () {
-                        let base64String = reader.result;
-                        console.log('Base64 String - ', base64String);
+                      base64Final = a;
 
-                            img.src = URL.createObjectURL(base64String); // set src to blob url
+                       
+
+                    img.src = URL.createObjectURL(a); // set src to blob url
                  
-                        // Simply Print the Base64 Encoded String, 
-                         // without additional data: Attributes. 
-                         console.log('Base64 String without Tags- ',
-                         base64String.substr(base64String.indexOf(', ') + 1));
-                        } 
                   }
               });
         });
