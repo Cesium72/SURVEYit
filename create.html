@@ -52,6 +52,7 @@ fetch(`submit/${localStorage.getItem("uid")}/${getVal("header")}/${getVal("sub")
                       }
 
                       var a = URL.createObjectURL(this.files[0]);
+                      console.log(a);
 
                        let reader = new FileReader();
                         reader.readAsDataURL(a);
