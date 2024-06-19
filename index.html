@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<!--
+All code in this file written by Caden O'Kellylee @Cesium72.
+Don't steal my code!
+-->
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>SURVEYit | Home</title>
+    <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+    <h1>SURVEY</h1>
+    <div id="menu">
+      <h3 style="color:black;">Menu</h3>
+        <a href="/">Home</a><br/>
+        <a href="/create">Make a Survey</a><br/>
+        <a href="/history">Survey History</a><br/>
+        <a href="/" onclick="localStorage.clear();">Logout</a>
+    </div>
+    <button onclick="changeMenu()" id="menuButton"></button>
+    <a id="create"href="create">+</a>
+    <span id="name"></span>
+    <main>
+    </main>
+    <div onclick="changeMenu()"id="shade"></div>
+    <script src="index.js"></script>
+    <script src="menu.js"></script>
+    </body>
+</html>

@@ -1,0 +1,97 @@
+/*
+All code in this file written by Caden O'Kellylee @Cesium72.
+Don't steal my code!
+*/
+
+@keyframes dot-keys {
+    from {
+        top:102vh;
+    }
+    to {
+        top:-2vh;
+    }
+}
+* {
+    font-family: Tahoma, "Trebuchet MS", Arial, sans-serif;
+    box-sizing:border-box;
+}
+body {
+    margin:0px;
+    overflow:hidden;
+}
+h1,h2 {
+    text-align:center;
+}
+body > h1 {
+    background-color:purple;
+    color:white;
+    height:10vh;
+    margin:0px;
+    position:fixed;
+    width:100vw;
+    z-index:1;
+}
+body > h1:after {
+    content:"it";
+    color:black;
+}
+#box {
+    width:400px;
+    border:4px solid purple;
+    border-radius:8px;
+    padding:0px;
+    background-color:white;
+    z-index:1;
+    position:fixed;
+    top:15vh;
+    left:calc(50vw - 200px);
+}
+button,a,input,p,textarea {
+    width:75%;
+    margin:4px;
+    margin-left:12.5%;
+    border:1px solid purple;
+    outline:none;
+    border-radius:5px;
+}
+p {
+    border:none;
+    display:none;
+    text-align:center;
+    padding:2px;
+}
+p#require {
+    display:block;
+    border:none;
+}
+#valid {
+    background-color:#50ff50;
+}
+#invalid {
+    background-color:#ff5050;
+}
+button,a {
+    background-color:purple;
+    color:white;
+    transition:all .5s ease-out;
+    cursor:pointer;
+    display:block;
+    text-align:center;
+    padding:2px;
+}
+button:hover,button:focus,a:hover,a:focus {
+    background-color:white;
+    color:purple
+}
+textarea {
+    resize:none;
+    height:250px;
+}
+.dot {
+    width:8px;
+    height:8px;
+    position:fixed;
+    border-radius:50%;
+    background-color:purple;
+    animation:dot-keys linear 5s infinite;
+}

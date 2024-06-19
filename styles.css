@@ -1,0 +1,227 @@
+/*
+All code in this file written by Caden O'Kellylee @Cesium72.
+Don't steal my code!
+*/
+
+* {
+    font-family: Tahoma, "Trebuchet MS", sans-serif;
+    box-sizing:border-box;
+}
+body {
+    margin:0px;
+}
+h1,h2,p,a {
+    text-align:center;
+}
+body > h1 {
+    background-color:purple;
+    color:white;
+    width:100vw;
+    height:10vh;
+    margin:0px;
+    position:fixed;
+    top:0px;
+    font-size:5vh;
+}
+body > h1:after {
+    content:"it";
+    color:black;
+}
+#name {
+    position:fixed;
+    font-size:2rem;
+    z-index:2;
+    color:white;
+    text-align:right;
+    right:14px;
+    top:8px;
+}
+.widget {
+    border:4px solid purple;
+    border-radius:8px;
+    width:400px;
+    margin:auto;
+    margin-top:13px;
+    margin-bottom:2px;
+    padding:2px;
+    text-align:center;
+}
+
+.widget button {
+    width:90%;
+    margin:2px 5%;
+    height:30px;
+    border-radius:15px;
+    border:1px solid purple;
+    color:purple;
+    background-color:white;
+    outline:none;
+    cursor:pointer;
+    transition:400ms all linear;
+    font-size:1em;
+}
+.widget button:hover, .widget button:focus {
+    border:1px solid white;
+    background-color:purple;
+    color:white;
+}
+#create {
+    padding:10vh;
+    position:fixed;
+    right:2vh;
+    bottom:2vh;
+    width:10vh;
+    height:10vh;
+    border-radius:100%;
+    background-color:purple;
+    color:white;
+    text-align:center;
+    text-decoration:none;
+    font-size:9vh;
+    line-height:10vh;
+    padding:0px;
+    cursor:pointer;
+    border:1px solid purple;
+    rotate:0deg;
+    vertical-align:middle;
+    transition:all .5s ease-out;
+    z-index:1;
+}
+#create:hover,#create:focus {
+    background-color:white;
+    color:purple;
+    rotate:360deg;
+    scale:1.2
+}
+main > a {
+    color:purple;
+    display:inline-block;
+    width:100%;
+    text-align:center;
+    margin:auto;
+}
+#menu {
+    position:fixed;
+    left:-300px;
+    height:100%;
+    width:300px;
+    margin:0;
+    top:0;
+    background-color:white;
+    z-index:4;
+    padding-top:6vh !important;
+    padding:4px;
+    transition:.5s left linear;
+}
+#menu.visible {
+    left:0;
+}
+#menu a {
+    color:purple;
+    text-decoration:1px underline white;
+    transition:all 0.5s ease-in;
+}
+#menu a:hover {
+    text-decoration:1px underline purple;
+    cursor:pointer;
+}
+#shade {
+    background-color:rgba(0, 0, 0, 0.5);
+    width:100%;
+    height:100%;
+    padding-top:100px;
+    position:fixed;
+    left:0px;
+    top:0px;
+    display:none;
+    z-index:3;
+}
+button#menuButton {
+    position:fixed;
+    float:left;
+    background-color:white;
+    border:none;
+    outline:none;
+    width:5vh;
+    height:5vh;
+    font-size:4vh !important;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:2em;
+    z-index:2;
+    margin:0px;
+    top:5px;
+    left:5px;
+    color:black;
+    padding:0px;
+    z-index:5;
+    rotate:0deg;
+    transition:rotate .5s ease-out;
+}
+button#menuButton:after {
+    content:"☰"
+}
+.outer {
+    width:90%;
+    border:1px solid purple;
+    border-radius:3px;
+    margin:auto;
+    height:50px;
+    padding:0px;
+}
+.inner {
+    background-color:purple;
+    border-radius:3px;
+    height:50px;
+}
+hr {
+    width:20vw;
+    border:3px solid purple;
+    border-radius:3px;
+}
+button,input {
+    width:50%;
+    margin:4px;
+    margin-left:25%;
+    border:1px solid purple;
+    outline:none;
+    border-radius:5px;
+}
+button {
+    background-color:purple;
+    color:white;
+    transition:all .5s ease-out;
+    cursor:pointer;
+}
+button:hover,button:focus {
+    background-color:white;
+    color:purple
+}
+main {
+    width:90vw;
+    margin-left:5vw;
+    margin-top:12vh;
+}
+
+#profile-image {
+    width:350px;
+    height:350px;
+    border-radius:50%;
+}
+
+#data a {
+    color:purple;
+}
+
+#menu.visible ~ button#menuButton {
+    rotate:360deg;
+}
+
+@media only screen and (orientation: portrait) {
+    .widget, a {
+        font-size:2em;
+    }
+    main > h2, #menu > h3 {
+        font-size:4em;
+    }
+}

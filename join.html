@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--
+All code in this file written by Caden O'Kellylee @Cesium72.
+Don't steal my code!
+-->
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>SURVEYit | Create Account</title>
+    <link rel="stylesheet" href="login.css"/>
+</head>
+<body>
+    <h1>SURVEY</h1>
+    <main>
+        <div id="box">
+        <h2>Join SURVEYit</h2>
+        <input id="username"type="username"placeholder="Username"/>
+        <input id="password"type="password"placeholder="Password"/>
+        <input id="verify"type="password"placeholder="Verify Password"/>
+        <input id="name"placeholder="Visible Name"/>
+        <textarea id="bio"placeholder="A brief bio about you (optional)"></textarea>
+        <p id="require">To create a SURVEYit account, you must be at least 13 years of age and agree to our terms and conditions.</p>
+        <button onclick="submit();">Create Account</button>
+        <p id="invalid"></p>
+        <p id="valid">Your SURVEYit account has been created! If this message is visible for more than 10 seconds, allow popups and redirects and manually visit the home page.</p>
+        </div>
+    </main>
+    <script>
+        const getVal = (input) => encodeURIComponent(document.getElementById(input).value);
+        async function submit() {
+            if(!["username","password","verify","name"].map(i => getVal(i)).includes("")) {
+                if(getVal("password") == getVal("verify")) {
+                    if(await (await fetch("check_acc/"+getVal("username"))).text() != "exist") {
+                    localStorage.setItem("name",document.getElementById("name").value);
+                    localStorage.setItem("username",document.getElementById("username").value);
+                    localStorage.setItem("uid",await(await fetch(`account/${getVal("username")}/${getVal("password")}/${getVal("name")}/${getVal("bio")}`)).text());
+                    document.getElementById("valid").style.display = "block";
+                    location.replace(".")
+                    } else {
+                        document.getElementById("invalid").textContent = "Sorry, but the username \"" + decodeURIComponent(getVal("username")) + "\" already exists.";
+                        document.getElementById("invalid").style.display = "block";
+                    }
+                } else {
+                    document.getElementById("invalid").textContent = "Your passwords don't seem to match. Check for typos and try again.";
+                    document.getElementById("invalid").style.display = "block";
+                }
+            } else {
+                document.getElementById("invalid").textContent = "Please fill out all mandatory fields!";
+                document.getElementById("invalid").style.display = "block";
+            }
+            setTimeout(() => {document.getElementById("invalid").style.display = "none";},5000)
+        }
+        (async () => {if(localStorage.uid)
+    document.write(await (await fetch('.')).text());})();
+        for(var i = 0; i < 1000; i++) {
+            document.body.innerHTML += `<div class="dot"style="left:${Math.random() * 100}%;animation-delay:${Math.random() * 5000}ms;"></dot>`;
+        }
+    </script>
+</body>
+</html>

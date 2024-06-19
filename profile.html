@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--
+All code in this file written by Caden O'Kellylee @Cesium72.
+Don't steal my code!
+-->
+<html>
+<head>
+    <title id="title">SURVEYit | User Profile</title>
+    <link rel="stylesheet"href="/styles.css">
+    <meta charset="UTF-8"/>
+</head>
+<body>
+    <div id="menu">
+        <h3 style="color:black;">Menu</h3>
+          <a href="/">Home</a><br/>
+          <a href="/create">Make a Survey</a><br/>
+          <a href="/history">Survey History</a><br/>
+          <a href="/" onclick="localStorage.clear();">Logout</a>
+      </div>
+      <button onclick="changeMenu()" id="menuButton"></button>
+    <h1>SURVEY</h1>
+    <main>
+    <div class="widget"id="data"></div>
+    </main>
+    <div id="shade"onclick="changeMenu()"></div>
+    <script src="/menu.js"></script>
+    <script>
+        (async () => {
+        let data = "";
+        if(location.pathname.split("/")[2]) {
+            document.querySelector("title").textContent = "SURVEYit | @" + location.pathname.split("/")[2] + "'s User Profile";
+            data = await(await fetch("/_profile/" + location.pathname.split("/")[2])).text();
+            if(data == "") {
+                location.replace("/")
+            } else {
+                handle(JSON.parse(data));
+            }
+        } else 
+        location.replace("/");
+        })();
+        const htmlHandle = (text) => text.split("&").join("&amp;").split("<").join("&lt;").split("@").join("&commat;");
+        function handle(info) {
+            document.getElementById("data").innerHTML = `
+            <h2>${info.name}'s Public Profile</h2>
+            <strong>@${location.pathname.split("/")[2]}</strong>
+            <img id="profile-image"src="/favicon.ico"/>
+            <h3>A Little Info About Me</h3>
+            <p>${htmlHandle(info.bio)}</p>
+            <a href="/history/${location.pathname.split("/")[2]}">View Their Posts</a>
+            `;
+        }
+    </script>
+</body>
+</html>

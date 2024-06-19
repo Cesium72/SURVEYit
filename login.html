@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--
+All code in this file written by Caden O'Kellylee @Cesium72.
+Don't steal my code!
+-->
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>SURVEYit | Login</title>
+    <link rel="stylesheet" href="login.css"/>
+</head>
+<body>
+    <div class="dot"style="left:50%;"></div>
+    <h1>SURVEY</h1>
+        <div id="box">
+        <h2>Login to SURVEYit</h2>
+        <input id="username"placeholder="Username"type="username"/>
+        <input id="password"placeholder="Password"type="password"/>
+        <button onclick="login()">Login</button>
+        <p id="invalid"style="">We couldn't find your account. Check spelling and try again.</p>
+        <p id="valid"style="">Login successful! If you see this message for more than 10 seconds, allow popups and redirects and manually visit the home page.</p>
+        </div>
+    <script>
+        const getVal = (input) => encodeURIComponent(document.getElementById(input).value);
+        async function login() {
+            var response = await (await fetch(`check_auth/${getVal("username")}/${getVal("password")}`)).text();
+            if(response != "not_valid") {
+            localStorage.setItem("uid",response);
+            localStorage.setItem("username",getVal("username"));
+            localStorage.setItem("name",await (await fetch(`name/${getVal("username")}`)).text());
+            document.getElementById("valid").style.display = "block";
+            location.href = "./";
+            } else {
+            document.getElementById("invalid").style.display = "block";
+            setTimeout(() => {document.getElementById("invalid").style.display = "none";},5000)
+            }
+        }
+        for(var i = 0; i < 1000; i++) {
+            document.body.innerHTML += `<div class="dot"style="left:${Math.random() * 100}%;animation-delay:${Math.random() * 5000}ms;"></dot>`;
+        }
+    </script>
+</body>
+</html>

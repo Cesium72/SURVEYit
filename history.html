@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!--
+All code in this file written by Caden O'Kellylee @Cesium72.
+Don't steal my code!
+-->
+<html lang="en">
+<head>
+    <title>SURVEYit | Survey History</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet"href="/styles.css">
+</head>
+<body>
+    <div id="menu">
+      <h3 style="color:black;">Menu</h3>
+        <a href="/">Home</a><br/>
+        <a href="/create">Make a Survey</a><br/>
+        <a href="/history">Survey History</a><br/>
+        <a href="/" onclick="localStorage.clear();">Logout</a>
+    </div>
+    <button onclick="changeMenu()" id="menuButton"></button>
+    <h1>SURVEY</h1>
+    <main id="main"><h2>Surveys You've Posted</h2>
+    <hr></main>
+    <div onclick="changeMenu()"id="shade"></div>
+    <script src="/menu.js"></script>
+    <script>
+        let user = location.pathname.split("/")[2] ? location.pathname.split("/")[2] : localStorage.getItem("username");
+        (
+            async () => {
+                document.getElementById("main").innerHTML += await (await fetch("/_history/"+user)).text()
+            }
+        )();
+    </script>
+</body>
+</html>

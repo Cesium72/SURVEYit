@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--
+All code in this file written by Caden O'Kellylee @Cesium72.
+Don't steal my code!
+-->
+<html>
+<head>
+    <title>SURVEYit | Create Survey</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet"href="styles.css"/>
+</head>
+<body>
+    <h1>SURVEY</h1>
+    <div id="menu">
+      <h3 style="color:black;">Menu</h3>
+        <a href="/">Home</a><br/>
+        <a href="create">Make a Survey</a><br/>
+        <a href="history">Survey History</a><br/>
+        <a href="/" onclick="localStorage.clear();">Logout</a>
+    </div>
+    <button onclick="changeMenu()" id="menuButton"></button>
+    <div onclick="changeMenu()"id="shade"></div>
+    <main>
+        <h2>Create Survey</h2>
+        <input id="header"placeholder="Main Header"/>
+        <input id="sub"placeholder="Subheader"/>
+        <input id="op1"placeholder="Option 1"/>
+        <input id="op2"placeholder="Option 2"/>
+        <input id="op3"placeholder="Option 3"/>
+        <input id="op4"placeholder="Option 4"/>
+        <button onclick="submit()">Create Survey</button>
+    </main>
+    <script>
+        const getVal = (input) => encodeURIComponent(document.getElementById(input).value);
+        function submit() {
+        if(!["header","sub","op1","op2","op3","op4"].map(a => getVal(a)).includes("")) {
+fetch(`submit/${localStorage.getItem("uid")}/${getVal("header")}/${getVal("sub")}/${getVal("op1")}/${getVal("op2")}/${getVal("op3")}/${getVal("op4")}`);
+        location.replace("."); } else {
+        alert("Please fill out all fields!");
+            }
+        }
+    </script>
+    <script src="menu.js"></script>
+</body>
+</html>

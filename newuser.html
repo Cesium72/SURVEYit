@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<!--
+All code in this file written by Caden O'Kellylee @Cesium72.
+Don't steal my code!
+-->
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>SURVEYit | Welcome</title>
+    <link rel="stylesheet"href="login.css"/>
+</head>
+<body>
+    <h1>SURVEY</h1>
+    <div id="box">
+        <h2>Welcome to SURVEYit!</h2>
+        <p id="require">SURVEYit is an online social connection platform. Although it may appear to be similar to a traditional social media platform, it is unique because instead of publishing posts, you create multiple choice questions for the SURVEYit community to answer. It is an effective method to connect with others or poll a large sample quickly.</p>
+        <a href="join">Sign Up Today</a><br/><a href="login">Login to Your Account</a>
+    </div>
+    <script>
+        for(var i = 0; i < 1000; i++) {
+            document.body.innerHTML += `<div class="dot"style="left:${Math.random() * 100}%;animation-delay:${Math.random() * 5000}ms;"></dot>`;
+        }
+    </script>
+</body>
+</html>
