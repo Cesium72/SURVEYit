@@ -61,7 +61,7 @@ fetch(`submit/${localStorage.getItem("uid")}/${getVal("header")}/${getVal("sub")
                         //image and file name
 
                         img.src = reader.result;
-                          base64Final = reader.result;
+                          base64Final = encodeURIComponent(reader.result);
                         console.log(reader.result);
                       };
                        
