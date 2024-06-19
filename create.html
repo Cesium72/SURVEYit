@@ -55,11 +55,16 @@ fetch(`submit/${localStorage.getItem("uid")}/${getVal("header")}/${getVal("sub")
                       var a = URL.createObjectURL(this.files[0]);
                       console.log(a);
 
-                      base64Final = a;
+                      let reader = new FileReader();
+                      reader.readAsDataURL(this.files[0]);
+                      reader.onloadend = () => {
+                        //image and file name
 
+                        img.src = reader.result;
+                        console.log(reader.result);
+                      };
                        
 
-                    img.src = URL.createObjectURL(a); // set src to blob url
                  
                   }
               });
