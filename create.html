@@ -28,6 +28,9 @@ Don't steal my code!
         <input id="op2"placeholder="Option 2"/>
         <input id="op3"placeholder="Option 3"/>
         <input id="op4"placeholder="Option 4"/>
+        Select an image<br>
+        <input type='file' />
+        <br><img id="myImg" src="#">
         <button onclick="submit()">Create Survey</button>
     </main>
     <script>
@@ -39,6 +42,20 @@ fetch(`submit/${localStorage.getItem("uid")}/${getVal("header")}/${getVal("sub")
         alert("Please fill out all fields!");
             }
         }
+
+        window.addEventListener('load', function() {
+              document.querySelector('input[type="file"]').addEventListener('change', function() {
+                  if (this.files && this.files[0]) {
+                      var img = document.querySelector('img');
+                      img.onload = () => {
+                          URL.revokeObjectURL(img.src);  // no longer needed, free memory
+                      }
+            
+                      img.src = URL.createObjectURL(this.files[0]); // set src to blob url
+                  }
+              });
+        });
+
     </script>
     <script src="menu.js"></script>
 </body>
