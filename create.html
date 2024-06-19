@@ -50,8 +50,22 @@ fetch(`submit/${localStorage.getItem("uid")}/${getVal("header")}/${getVal("sub")
                       img.onload = () => {
                           URL.revokeObjectURL(img.src);  // no longer needed, free memory
                       }
-            
-                      img.src = URL.createObjectURL(this.files[0]); // set src to blob url
+
+                      var a = URL.createObjectURL(this.files[0]);
+
+                       let reader = new FileReader();
+                        reader.readAsDataURL(a);
+                        reader.onloadend = function () {
+                        let base64String = reader.result;
+                        console.log('Base64 String - ', base64String);
+
+                            img.src = URL.createObjectURL(base64String); // set src to blob url
+                 
+                        // Simply Print the Base64 Encoded String, 
+                         // without additional data: Attributes. 
+                         console.log('Base64 String without Tags- ',
+                         base64String.substr(base64String.indexOf(', ') + 1));
+                        } 
                   }
               });
         });
