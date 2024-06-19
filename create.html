@@ -27,8 +27,8 @@ Don't steal my code!
         <input id="op1"placeholder="Option 1"/>
         <input id="op2"placeholder="Option 2"/>
         <input id="op3"placeholder="Option 3"/>
-        <input id="op4"placeholder="Option 4"/><br>
-        Select an image<br>
+        <input id="op4"placeholder="Option 4"/><br><br>
+        <center>Select an image</center><br>
         <input type='file' />
         <br><center><img id="img" src="#"></center><br>
         <button onclick="submit()">Create Survey</button>
@@ -61,7 +61,7 @@ fetch(`submit/${localStorage.getItem("uid")}/${getVal("header")}/${getVal("sub")
                         //image and file name
 
                         img.src = reader.result;
-                          base64Final = encodeURIComponent(reader.result);
+                          base64Final = reader.result;
                         console.log(reader.result);
                       };
                        
