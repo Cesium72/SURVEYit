@@ -30,14 +30,14 @@ Don't steal my code!
         <input id="op4"placeholder="Option 4"/><br>
         Select an image<br>
         <input type='file' />
-        <br><center><img id="myImg" src="#"></center><br>
+        <br><center><img id="img" src="#"></center><br>
         <button onclick="submit()">Create Survey</button>
     </main>
     <script>
         const getVal = (input) => encodeURIComponent(document.getElementById(input).value);
         function submit() {
         if(!["header","sub","op1","op2","op3","op4"].map(a => getVal(a)).includes("")) {
-fetch(`submit/${localStorage.getItem("uid")}/${getVal("header")}/${getVal("sub")}/${getVal("op1")}/${getVal("op2")}/${getVal("op3")}/${getVal("op4")}`);
+fetch(`submit/${localStorage.getItem("uid")}/${getVal("header")}/${getVal("sub")}/${getVal("op1")}/${getVal("op2")}/${getVal("op3")}/${getVal("op4")}/${document.getElementById("img").src}`);
         location.replace("."); } else {
         alert("Please fill out all fields!");
             }
