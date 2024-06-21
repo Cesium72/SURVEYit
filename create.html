@@ -27,7 +27,8 @@ Don't steal my code!
         <input id="op1"placeholder="Option 1"/>
         <input id="op2"placeholder="Option 2"/>
         <input id="op3"placeholder="Option 3"/>
-        <input id="op4"placeholder="Option 4"/><br><br>
+        <input id="op4"placeholder="Option 4"/>
+        <br><br>
         <center>Select an image</center><br>
         <input type='file' />
         <br><center><img id="img" src="#"></center><br>
@@ -37,7 +38,7 @@ Don't steal my code!
         const getVal = (input) => encodeURIComponent(document.getElementById(input).value);
         function submit() {
         if(!["header","sub","op1","op2","op3","op4"].map(a => getVal(a)).includes("")) {
-fetch(`submit/${localStorage.getItem("uid")}/${getVal("header")}/${getVal("sub")}/${getVal("op1")}/${getVal("op2")}/${getVal("op3")}/${getVal("op4")}/${base64Final.toString()}`);
+fetch(`submit/${localStorage.getItem("uid")}/${getVal("header")}/${getVal("sub")}/${getVal("op1")}/${getVal("op2")}/${getVal("op3")}/${getVal("op4")}/${encodeURIComponent(base64Final.toString())}`);
         location.replace("."); } else {
         alert("Please fill out all fields!");
             }
@@ -49,20 +50,15 @@ fetch(`submit/${localStorage.getItem("uid")}/${getVal("header")}/${getVal("sub")
                   if (this.files && this.files[0]) {
                       var img = document.querySelector('img');
                       img.onload = () => {
-                          URL.revokeObjectURL(img.src);  // no longer needed, free memory
+                          URL.revokeObjectURL(img.src);
                       }
-
                       var a = URL.createObjectURL(this.files[0]);
-                      console.log(a);
 
                       let reader = new FileReader();
                       reader.readAsDataURL(this.files[0]);
                       reader.onloadend = () => {
-                        //image and file name
-
                         img.src = reader.result;
-                          base64Final = reader.result;
-                        console.log(reader.result);
+                        base64Final = reader.result;
                       };
                        
 
