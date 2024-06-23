@@ -32,7 +32,7 @@ function serve(request,response) {
                 var j = 0;
                 for(var i = surveys.length - 1; j < Math.min(250,surveys.length) && i >= 0; i--) {
                     if(!surveys[i].responders.includes(infoSplit[1])) {
-                    response.write(`<div class="widget"id="${i}"><h1>${surveys[i].name}</h1><h2>${surveys[i].sub}</h2>${[null, undefined,"#", ""].includes(surveys[i].img) ?  "" : `<hr><img src="${decodeURIComponent(surveys[i].img)}"width="350"><hr>` }<button onclick="send(${i},0)">${surveys[i].answers[0]}</button><br/><button onclick="send(${i},1)">${surveys[i].answers[1]}</button><br/><button onclick="send(${i},2)">${surveys[i].answers[2]}</button><br/><button onclick="send(${i},3)">${surveys[i].answers[3]}</button><br/>Made by ${accounts[accounts.map(a => a.key).indexOf(surveys[i].creator)].name}</div>`);
+                    response.write(`<div class="widget"id="${i}"><h1>${surveys[i].name}</h1><h2>${surveys[i].sub}</h2>${[null, undefined,"#"].includes(surveys[i].img) ?  "" : `<hr><img src="${decodeURIComponent(surveys[i].img)}"width="350"><hr>` }<button onclick="send(${i},0)">${surveys[i].answers[0]}</button><br/><button onclick="send(${i},1)">${surveys[i].answers[1]}</button><br/><button onclick="send(${i},2)">${surveys[i].answers[2]}</button><br/><button onclick="send(${i},3)">${surveys[i].answers[3]}</button><br/>Made by ${accounts[accounts.map(a => a.key).indexOf(surveys[i].creator)].name}</div>`);
                     j++;
                     }
                 }
@@ -108,7 +108,7 @@ function serve(request,response) {
                 response.setHeader("Content-type","text/plain");
                 var cur = surveys[parseInt(infoSplit[1])];
                 if(cur.responders.length > 0) {
-                response.write(`<h1>${cur.name}</h1><h2>${cur.sub}</h2>`);
+                response.write(`<h1>${cur.name}</h1><h2>${cur.sub}</h2>${[null, undefined,"#"].includes(cur.img) ?  "" : `<hr><img src="${decodeURIComponent(cur.img)}"width="350"><hr>` }`);
                     for(var i = 0; i < cur.responses.length; i++)
                         response.write(`${cur.answers[i]} &bull; ${cur.responses[i]} responders &bull; ${Math.round(cur.responses[i]/cur.responders.length*100)}%<br/><div class="outer"><div class="inner"style="width:${cur.responses[i]/cur.responders.length*100}%;"></div></div><br/>`);
                 }
@@ -134,6 +134,7 @@ function serve(request,response) {
                             "password":infoSplit[2],
                             "name":infoSplit[3],
                             "bio":infoSplit[4],
+                            "img":infoSplit[5],
                             "key":k
                         }
                     );
@@ -159,6 +160,11 @@ function serve(request,response) {
                 response.write(content);
                 break;
             }
+            case "none.jpg": {
+                response.setHeader("Content-type","image/jpeg");
+                response.write(fs.readFileSync("None.jpg"));
+                break;
+            }
             case "history": {
                 response.setHeader("Content-type","text/html");
                 response.write(fs.readFileSync("history.html"));
@@ -172,7 +178,7 @@ function serve(request,response) {
                 }
                 var flag = false;
                 for(var cur of surveys.filter(a => a.creator == acc).reverse()) {
-                    response.write(`<div class="widget"><h1>${cur.name}</h1><h2>${cur.sub}</h2>`);
+                    response.write(`<div class="widget"><h1>${cur.name}</h1><h2>${cur.sub}</h2>${[null, undefined,"#"].includes(cur.img) ?  "" : `<hr><img src="${decodeURIComponent(cur.img)}"width="350"><hr>`}`);
                     for(var i = 0; i < cur.responses.length; i++)
                         response.write(`${cur.answers[i]} &bull; ${cur.responses[i]} responders &bull; ${Math.round(cur.responses[i]/cur.responders.length*100)}%<br/><div class="outer"><div class="inner"style="width:${cur.responses[i]/cur.responders.length*100}%;"></div></div><br/>`);
                 response.write(`Made by ${accounts[accounts.map(a => a.key).indexOf(cur.creator)].name}</div>`);
@@ -199,7 +205,8 @@ function serve(request,response) {
                     response.write(JSON.stringify(
                 {
                     "name":cur.name,
-                    "bio":cur.bio
+                    "bio":cur.bio,
+                    "img":cur.img ? cur.img : "/none.jpg"
                 }
                     ));
                 } else
@@ -234,9 +241,10 @@ console.log("SERVER LIVE!");
 function cacheData() {
     console.log("Caching----------------------------------------------------------")
     var data = JSON.stringify(surveys);
-    fs.writeFile("surveys.json",data,err => {if(err) {console.log("CacheErr: "+err)}})
+    fs.writeFileSync("surveys.json",data,err => {if(err) {console.log("CacheErr: "+err)}})
     data = JSON.stringify(accounts);
-    fs.writeFile("accounts.json",data,err => {if(err) {console.log("CacheErr: "+err)}})
+    fs.writeFileSync("accounts.json",data,err => {if(err) {console.log("CacheErr: "+err)}})
+    console.log("Caching Complete-------------------------------------------------")
 }
 surveys = JSON.parse(fs.readFileSync("surveys.json"));
 accounts = JSON.parse(fs.readFileSync("accounts.json"));
