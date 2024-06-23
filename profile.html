@@ -42,8 +42,8 @@ Don't steal my code!
         function handle(info) {
             document.getElementById("data").innerHTML = `
             <h2>${info.name}'s Public Profile</h2>
-            <strong>@${location.pathname.split("/")[2]}</strong>
-            <img id="profile-image"src="/favicon.ico"/>
+            <strong>@${decodeURIComponent(location.pathname.split("/")[2])}</strong>
+            <img id="profile-image"src="${info.img}"/>
             <h3>A Little Info About Me</h3>
             <p>${htmlHandle(info.bio)}</p>
             <a href="/history/${location.pathname.split("/")[2]}">View Their Posts</a>
