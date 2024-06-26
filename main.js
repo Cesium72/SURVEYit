@@ -32,7 +32,10 @@ function serve(request,response) {
                 var j = 0;
                 for(var i = surveys.length - 1; j < Math.min(250,surveys.length) && i >= 0; i--) {
                     if(!surveys[i].responders.includes(infoSplit[1])) {
-                    response.write(`<div class="widget"id="${i}"><h1>${surveys[i].name}</h1><h2>${surveys[i].sub}</h2>${[null, undefined,"#"].includes(surveys[i].img) ?  "" : `<hr><img src="${decodeURIComponent(surveys[i].img)}"width="350"><hr>` }<button onclick="send(${i},0)">${surveys[i].answers[0]}</button><br/><button onclick="send(${i},1)">${surveys[i].answers[1]}</button><br/><button onclick="send(${i},2)">${surveys[i].answers[2]}</button><br/><button onclick="send(${i},3)">${surveys[i].answers[3]}</button><br/>Made by ${accounts[accounts.map(a => a.key).indexOf(surveys[i].creator)].name}</div>`);
+                    response.write(`<div class="widget"id="${i}"><h1>${surveys[i].name}</h1><h2>${surveys[i].sub}</h2>${[null, undefined,"#"].includes(surveys[i].img) ?  "" : `<hr><img src="${decodeURIComponent(surveys[i].img)}"width="350"><hr>` }`)
+                    for(var k = 0; k < surveys[i].answers.length; k++)
+                        response.write(`<button onclick="send(${i},${k})">${surveys[i].answers[k]}</button><br/>`)
+                    response.write(`Made by ${accounts[accounts.map(a => a.key).indexOf(surveys[i].creator)].name}</div>`);
                     j++;
                     }
                 }
@@ -50,7 +53,24 @@ function serve(request,response) {
             }
             case "submit": {
                 //Submit survey for creation
-                surveys.push({creator:infoSplit[1],name:infoSplit[2],sub:infoSplit[3],answers:[infoSplit[4],infoSplit[5],infoSplit[6],infoSplit[7]],responses:[0,0,0,0],responders:[],img:(infoSplit[8] == "#") ? null : encodeURIComponent(infoSplit[8])})
+                surveys.push({
+                    creator:infoSplit[1],
+                    name:infoSplit[2],
+                    sub:infoSplit[3],
+                    answers:[infoSplit[5],
+                             infoSplit[6]
+                            ],
+                    responses:[0,0],
+                    responders:[],
+                    img:(infoSplit[4] == "#") ? "#" : encodeURIComponent(infoSplit[4])
+                })
+                for(var i = 7; i <= 12; i++) {
+                    if(infoSplit[i]) {
+                        surveys[surveys.length - 1].answers.push(infoSplit[i])
+                        surveys[surveys.length - 1].responses.push(0)
+                    } else 
+                        break;
+                }
                 break;
             }
             case "check_acc": {
@@ -82,7 +102,7 @@ function serve(request,response) {
                     if(accounts.map(a => a.key).includes(infoSplit[3]) && !surveys[parseInt(infoSplit[1])].responders.includes(infoSplit[3])) {
                     surveys[parseInt(infoSplit[1])].responses[parseInt(infoSplit[2])]++;
                     surveys[parseInt(infoSplit[1])].responders.push(infoSplit[3])
-                    surveys[Math.abs(parseInt(infoSplit[1]))].responses = [surveys[Math.abs(parseInt(infoSplit[1]))].responses[0],surveys[Math.abs(parseInt(infoSplit[1]))].responses[1],surveys[Math.abs(parseInt(infoSplit[1]))].responses[2],surveys[Math.abs(parseInt(infoSplit[1]))].responses[3]]
+                    //surveys[Math.abs(parseInt(infoSplit[1]))].responses = [surveys[Math.abs(parseInt(infoSplit[1]))].responses[0],surveys[Math.abs(parseInt(infoSplit[1]))].responses[1],surveys[Math.abs(parseInt(infoSplit[1]))].responses[2],surveys[Math.abs(parseInt(infoSplit[1]))].responses[3]]
                     }
                 } catch {}
                 break;
