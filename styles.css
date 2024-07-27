@@ -65,6 +65,10 @@ body > h1:after {
     background-color:purple;
     color:white;
 }
+.widget img {
+    max-height:1200px;
+    overflow:hidden;
+}
 #create {
     padding:10vh;
     position:fixed;

@@ -9,7 +9,15 @@ const crypto = require("crypto");
 var surveys = [];
 var accounts = [];
 
+
+
+const HTMLHandle = val => val.split("&").join("&amp;").split("<").join("&lt;").split("@").join("&commat;").split('"').join("&qout;");
+
+const parseIp = (req) => req.headers['x-forwarded-for']?.split(',').shift() || req.socket?.remoteAddress
+
 function serve(request,response) {
+    console.log(parseIp(request));
+    
     var info = request.url;
     console.log(`GET ${request.url}`);
     if(info != "/")
@@ -53,10 +61,11 @@ function serve(request,response) {
             }
             case "submit": {
                 //Submit survey for creation
+                if(accounts.map(a => a.key).includes(infoSplit[1])) {
                 surveys.push({
                     creator:infoSplit[1],
-                    name:infoSplit[2],
-                    sub:infoSplit[3],
+                    name:HTMLHandle(infoSplit[2]),
+                    sub:HTMLHandle(infoSplit[3]),
                     answers:[infoSplit[5],
                              infoSplit[6]
                             ],
@@ -70,6 +79,8 @@ function serve(request,response) {
                         surveys[surveys.length - 1].responses.push(0)
                     } else 
                         break;
+                }
+                surveys[surveys.length - 1].answers = surveys[surveys.length - 1].answers.map(HTMLHandle);
                 }
                 break;
             }
@@ -251,7 +262,6 @@ function serve(request,response) {
             }
     } 
     response.end();
-    // console.log(`    Status: ${response.statusCode}`);
 }
 
 var server = http.createServer(serve);
