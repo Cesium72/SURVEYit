@@ -34,7 +34,7 @@ Don't steal my code!
         function submit() {
         if(!["op1"].map(a => getVal(a)).includes("")) {
             let finalAns = [1].map(a => getVal("op"+a)).filter(i => i != "");
-fetch(`submitAd/${localStorage.getItem("uid")}/${encodeURIComponent(base64Final.toString())}/${finalAns.join("/")}`);
+fetch(`submitAd/${localStorage.getItem("uid")}/${finalAns.join("/")}`, {method:'POST',body:JSON.stringify({'image':encodeURIComponent(base64Final.toString())})});
         location.replace("."); } else {
         alert("Please fill out all fields!");
             }

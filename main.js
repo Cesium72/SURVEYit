@@ -255,6 +255,12 @@ function serve(request,response) {
                     response.write(fs.readFileSync("main.js"));
                 break;
             }
+            case "submitAd": {
+                response.setHeader("Content-type","text/html");
+                response.write('OK');
+                console.log(infoSplit, JSON.parse(request.body).image);
+
+            }
             default: {
                 var content = fs.readFileSync("404.html");
                 response.write(content);
