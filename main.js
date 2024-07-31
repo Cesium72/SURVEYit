@@ -8,6 +8,7 @@ const crypto = require("crypto");
 
 var surveys = [];
 var accounts = [];
+var ads = [];
 
 
 
@@ -56,6 +57,16 @@ function serve(request,response) {
             case "create": {
                 //Display create survey page
                 var content = fs.readFileSync("create.html");
+                response.write(content);
+                break;
+            }
+            case "createAd": {
+                var content = fs.readFileSync("createAd.html");
+                response.write(content);
+                break;
+            }
+            case "terms": {
+                var content = fs.readFileSync("terms.html");
                 response.write(content);
                 break;
             }
@@ -113,7 +124,6 @@ function serve(request,response) {
                     if(accounts.map(a => a.key).includes(infoSplit[3]) && !surveys[parseInt(infoSplit[1])].responders.includes(infoSplit[3])) {
                     surveys[parseInt(infoSplit[1])].responses[parseInt(infoSplit[2])]++;
                     surveys[parseInt(infoSplit[1])].responders.push(infoSplit[3])
-                    //surveys[Math.abs(parseInt(infoSplit[1]))].responses = [surveys[Math.abs(parseInt(infoSplit[1]))].responses[0],surveys[Math.abs(parseInt(infoSplit[1]))].responses[1],surveys[Math.abs(parseInt(infoSplit[1]))].responses[2],surveys[Math.abs(parseInt(infoSplit[1]))].responses[3]]
                     }
                 } catch {}
                 break;
@@ -256,10 +266,21 @@ function serve(request,response) {
                 break;
             }
             case "submitAd": {
-                response.setHeader("Content-type","text/html");
-                response.write('OK');
-                console.log(infoSplit, JSON.parse(request.body).image);
-
+                if(infoSplit.length == 4) {
+                    ads.push({"creator":infoSplit[1],"clickURL":infoSplit[2],"imgURL":infoSplit[3]});
+                }
+                break;
+            }
+            case "viewAd": {
+                response.setHeader("Content-type","text/json");
+                var rand = Math.floor(Math.random() * ads.length);
+                response.write(encodeURIComponent(JSON.stringify(
+                    {
+                        "clickURL":ads[rand].clickURL,
+                        "imgURL":ads[rand].imgURL
+                    }
+                )));
+                break;
             }
             default: {
                 var content = fs.readFileSync("404.html");
@@ -280,8 +301,11 @@ function cacheData() {
     fs.writeFileSync("surveys.json",data,err => {if(err) {console.log("CacheErr: "+err)}})
     data = JSON.stringify(accounts);
     fs.writeFileSync("accounts.json",data,err => {if(err) {console.log("CacheErr: "+err)}})
+    data = JSON.stringify(ads);
+    fs.writeFileSync("ads.json",data,err => {if(err) {console.log("CacheErr: "+err)}})
     console.log("Caching Complete-------------------------------------------------")
 }
 surveys = JSON.parse(fs.readFileSync("surveys.json"));
 accounts = JSON.parse(fs.readFileSync("accounts.json"));
+ads = JSON.parse(fs.readFileSync("ads.json"));
 setInterval(cacheData,30000);

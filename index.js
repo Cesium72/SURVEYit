@@ -12,6 +12,8 @@ async function send(form,value) {
 
 async function init() {
     document.getElementsByTagName("main")[0].innerHTML = await (await fetch(`list/${localStorage.getItem("uid")}`)).text();
+    let ad = JSON.parse(decodeURIComponent(await (await fetch('viewAd')).text()));
+    document.getElementById("adBox").innerHTML = `<a href="${ad.clickURL}"target="_blank"><img src="${ad.imgURL}"/></a>`;
 }
 init();
 

@@ -227,6 +227,22 @@ main {
     rotate:360deg;
 }
 
+#adBox {
+    position:fixed;
+    z-index:1;
+    left:0px;
+    bottom:0px;
+    max-width:400px;
+    max-height:400px;
+    overflow:hidden;
+    border:1px solid purple;
+    padding:5px;
+}
+
+#adBox img {
+    width:400px;
+}
+
 @media only screen and (orientation: portrait) {
     .widget, a {
         font-size:2em;
