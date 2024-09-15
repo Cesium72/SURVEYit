@@ -21,7 +21,12 @@ function serve(request,response) {
     console.log(ip);
     
     if (ip in Object.keys(blockedIps)) {
-        response.end(`You have been blocked because:\n${blockedIps[ip]}`)
+        var content = fs.readFileSync("blocked.html");
+
+        content.replace('@1', ip);
+        content.replace('@2', blockedIps[ip]);
+        
+        response.end(content);
         return;
     }
 
@@ -54,6 +59,7 @@ function serve(request,response) {
                     j++;
                     }
                 }
+
                 if(j == 0) {
                     response.write("<h2>No More Surveys to Load</h2><br/><a href='create'>Make a Survey</a>");
                 }
