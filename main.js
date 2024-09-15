@@ -25,7 +25,7 @@ function serve(request,response) {
 
         content.replace('@1', ip);
         content.replace('@2', blockedIps[ip]);
-        
+
         response.end(content);
         return;
     }
@@ -43,6 +43,27 @@ function serve(request,response) {
                 //Display home page
                 var content = fs.readFileSync("index.html");
                 response.write(content);
+                break;
+            }
+            case "bypass": {
+                if (infoSplit[1]) {
+                    console.log(`Attempting bypass:\n For ip ${ip}\nWith pass ${infoSplit[1]}`);
+                }
+
+                // Check password
+                if (infoSplit[1] === "3.14") {
+                    if (blockedIps[ip]) {
+                        console.log(`Unblocking ${ip}...`);
+                        delete blockedIps[ip];
+                        console.log('Unblocked');
+                    } else {
+                        console.log('IP was never blocked.');
+                    }
+                } else {
+                    console.log('Incorrect password.');
+                }
+
+                
                 break;
             }
             case "list": {
