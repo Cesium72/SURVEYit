@@ -10,15 +10,21 @@ var surveys = [];
 var accounts = [];
 var ads = [];
 
-
+var blockedIps = {};
 
 const HTMLHandle = val => val.split("&").join("&amp;").split("<").join("&lt;").split("@").join("&commat;").split('"').join("&qout;");
 
 const parseIp = (req) => req.headers['x-forwarded-for']?.split(',').shift() || req.socket?.remoteAddress
 
 function serve(request,response) {
-    console.log(parseIp(request));
+    var ip = parseIp(request);
+    console.log(ip);
     
+    if (ip in Object.keys(blockedIps)) {
+        response.end(`You have been blocked because:\n${blockedIps[ip]}`)
+        return;
+    }
+
     var info = request.url;
     console.log(`GET ${request.url}`);
     if(info != "/")
