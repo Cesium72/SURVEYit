@@ -10,16 +10,16 @@ var surveys = [];
 var accounts = [];
 var ads = [];
 
-var blockedIps = {'IP Address': 'Reason for blocking.'};
+var blockedIps = {"2601:280:5e80:d950:a440:6f7c:7c20:65e8":"Testing purposes."};
 
-const HTMLHandle = val => val.split("&").join("&amp;").split("<").join("&lt;").split("@").join("&commat;").split('"').join("&qout;");
+const HTMLHandle = val => val.split("&").join("&amp;").split("<").join("&lt;").split("@").join("&commat;").split('"').join("&qoute;");
 
 const parseIp = (req) => req.headers['x-forwarded-for']?.split(',').shift() || req.socket?.remoteAddress
 
 function serve(request,response) {
-    var ip = parseIp(request);
+    let ip = parseIp(request);
     console.log(ip);
-    
+
     if (ip in Object.keys(blockedIps)) {
         var content = fs.readFileSync("blocked.html");
 
@@ -45,27 +45,6 @@ function serve(request,response) {
                 response.write(content);
                 break;
             }
-            case "bypass": {
-                if (infoSplit[1]) {
-                    console.log(`Attempting bypass:\n For ip ${ip}\nWith pass ${infoSplit[1]}`);
-                }
-
-                // Check password
-                if (infoSplit[1] === "3.14") {
-                    if (blockedIps[ip]) {
-                        console.log(`Unblocking ${ip}...`);
-                        delete blockedIps[ip];
-                        console.log('Unblocked');
-                    } else {
-                        console.log('IP was never blocked.');
-                    }
-                } else {
-                    console.log('Incorrect password.');
-                }
-
-                
-                break;
-            }
             case "list": {
                 //Show selected surveys
                 if(infoSplit[1] != "null") {
@@ -76,11 +55,10 @@ function serve(request,response) {
                     response.write(`<div class="widget"id="${i}"><h1>${surveys[i].name}</h1><h2>${surveys[i].sub}</h2>${[null, undefined,"#"].includes(surveys[i].img) ?  "" : `<hr><img src="${decodeURIComponent(surveys[i].img)}"width="350"><hr>` }`)
                     for(var k = 0; k < surveys[i].answers.length; k++)
                         response.write(`<button onclick="send(${i},${k})">${surveys[i].answers[k]}</button><br/>`)
-                    response.write(`Made by ${accounts[accounts.map(a => a.key).indexOf(surveys[i].creator)].name}</div>`);
+                    response.write(`Made by <a href="profile/${HTMLHandle(accounts[accounts.map(a => a.key).indexOf(surveys[i].creator)].username)}">${accounts[accounts.map(a => a.key).indexOf(surveys[i].creator)].name}</a></div>`);
                     j++;
                     }
                 }
-
                 if(j == 0) {
                     response.write("<h2>No More Surveys to Load</h2><br/><a href='create'>Make a Survey</a>");
                 }
@@ -167,6 +145,7 @@ function serve(request,response) {
                 break;
             }
             case "newuser": {
+                //Display new user page
                 response.write(fs.readFileSync("newuser.html"));
                 break;
             }
@@ -206,8 +185,8 @@ function serve(request,response) {
                         {
                             "username":infoSplit[1],
                             "password":infoSplit[2],
-                            "name":infoSplit[3],
-                            "bio":infoSplit[4],
+                            "name":HTMLHandle(infoSplit[3]),
+                            "bio":HTMLHandleinfoSplit[4],
                             "img":infoSplit[5],
                             "key":k
                         }
@@ -246,6 +225,7 @@ function serve(request,response) {
             }
             case "_history": {
                 response.setHeader("Content-type","text/plain");
+                try {
                 let acc = accounts[accounts.map(a => a.username).indexOf(infoSplit[1])];
                 if(acc != null) {
                     acc = acc.key;
@@ -259,8 +239,9 @@ function serve(request,response) {
                     flag = true;
                 }
                 if(!flag) {
-                    response.write(`<h2>${infoSplit[1]} hasn't posted any surveys yet</h2><br/><a href='create'>Make a Survey</a>`);
+                    response.write(`<h2>${HTMLHandle(infoSplit[1])} hasn't posted any surveys yet</h2><br/><a href='create'>Make a Survey</a>`);
                 }
+                } catch {}
                 break;
             }
             case "styles.css": {
@@ -313,6 +294,11 @@ function serve(request,response) {
                         "imgURL":ads[rand].imgURL
                     }
                 )));
+                break;
+            }
+            case "ip": {
+                response.setHeader("Content-type","text/plain");
+                response.write(ip);
                 break;
             }
             default: {
