@@ -10,7 +10,7 @@ var surveys = [];
 var accounts = [];
 var ads = [];
 
-var blockedIps = {};
+var blockedIps = {'IP Address': 'Reason for blocking.'};
 
 const HTMLHandle = val => val.split("&").join("&amp;").split("<").join("&lt;").split("@").join("&commat;").split('"').join("&qout;");
 
