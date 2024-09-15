@@ -25,8 +25,8 @@ function serve(request,response) {
     if (Object.keys(blockedIps).includes(ip)) {
         var content = fs.readFileSync("blocked.html");
 
-        content.replace('@1', ip);
-        content.replace('@2', blockedIps[ip]);
+        content.split('@1').join(ip);
+        content.split('@2').join(blockedIps[ip]);
 
         response.end(content);
         return;
