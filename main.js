@@ -20,7 +20,9 @@ function serve(request,response) {
     let ip = parseIp(request);
     console.log(ip);
 
-    if (ip in Object.keys(blockedIps)) {
+    
+
+    if (Object.keys(blockedIps).includes(ip)) {
         var content = fs.readFileSync("blocked.html");
 
         content.replace('@1', ip);
